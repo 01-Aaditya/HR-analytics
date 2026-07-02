@@ -1,0 +1,5 @@
+salary_band,employee_count,attrition_count,retained_count,attrition_rate,retention_rate,avg_monthly_income,avg_tenure,avg_total_experience
+Low,369,108,261,29.27,70.73,2354.13,3.66,5.6
+Lower-Mid,366,52,314,14.21,85.79,3964.1,5.69,8.37
+Upper-Mid,367,39,328,10.63,89.37,6181.74,7.07,11.07
+High,368,38,330,10.33,89.67,13508.35,11.61,20.08

@@ -1,0 +1,4 @@
+department,employee_count,attrition_count,retained_count,attrition_rate,retention_rate,avg_monthly_income,avg_tenure,avg_total_experience
+Human Resources,63,12,51,19.05,80.95,6654.51,7.24,11.56
+Research & Development,961,133,828,13.84,86.16,6281.25,6.86,11.34
+Sales,446,92,354,20.63,79.37,6959.17,7.28,11.11

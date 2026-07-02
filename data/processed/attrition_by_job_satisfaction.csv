@@ -1,0 +1,5 @@
+job_satisfaction_label,employee_count,attrition_count,retained_count,attrition_rate,retention_rate,avg_monthly_income,avg_tenure,avg_total_experience
+High,442,73,369,16.52,83.48,6480.5,7.0,11.11
+Low,289,66,223,22.84,77.16,6561.57,6.99,11.61
+Medium,280,46,234,16.43,83.57,6527.33,7.11,11.36
+Very High,459,52,407,11.33,88.67,6472.73,6.96,11.19

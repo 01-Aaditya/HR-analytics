@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HR Attrition and Retention Dashboard</title>
+  <style>
+    :root {
+      --ink: #1f2933;
+      --muted: #64748b;
+      --line: #d9e2ec;
+      --panel: #ffffff;
+      --page: #f6f8fb;
+      --blue: #1f77b4;
+      --red: #e15759;
+      --green: #2f855a;
+      --amber: #c27803;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--page);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .wrap {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 22px 0;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: #334e68;
+      background: #f8fafc;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    main {
+      padding: 24px 0 38px;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .kpi {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      min-height: 104px;
+    }
+
+    .kpi span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .kpi strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .kpi small {
+      display: block;
+      margin-top: 9px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .insights {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .insight {
+      background: var(--panel);
+      border-left: 5px solid var(--blue);
+      border-radius: 8px;
+      padding: 14px 16px;
+      border-top: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .insight.risk {
+      border-left-color: var(--red);
+    }
+
+    .insight.money {
+      border-left-color: var(--amber);
+    }
+
+    .insight h2 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      letter-spacing: 0;
+    }
+
+    .insight p {
+      margin: 0;
+      color: #334e68;
+      font-size: 14px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .section {
+      margin-top: 16px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .panel h2 {
+      margin: 0 0 12px;
+      font-size: 17px;
+      letter-spacing: 0;
+    }
+
+    .chart {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid #edf2f7;
+      border-radius: 6px;
+      background: #ffffff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th,
+    td {
+      padding: 10px 9px;
+      border-bottom: 1px solid #e6edf5;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: #334e68;
+      background: #f8fafc;
+      font-weight: 700;
+      position: sticky;
+      top: 0;
+    }
+
+    .table-scroll {
+      max-height: 360px;
+      overflow: auto;
+      border: 1px solid #edf2f7;
+      border-radius: 6px;
+    }
+
+    .footer-note {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 980px) {
+      .kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .insights,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .wrap {
+        width: min(100% - 20px, 1180px);
+      }
+
+      .kpi-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap topbar">
+      <div>
+        <h1>HR Attrition and Retention Dashboard</h1>
+        <p class="subtitle">IBM HR Analytics dataset | Python analysis preview for Power BI portfolio build</p>
+      </div>
+      <div class="badge">Generated from cleaned project data</div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="kpi-grid" aria-label="KPI summary">
+      <article class="kpi">
+        <span>Total Employees</span>
+        <strong>1,470</strong>
+        <small>Employee records analyzed</small>
+      </article>
+      <article class="kpi">
+        <span>Attrition Count</span>
+        <strong>237</strong>
+        <small>Employees marked as attrited</small>
+      </article>
+      <article class="kpi">
+        <span>Attrition Rate</span>
+        <strong>16.12%</strong>
+        <small>Overall attrition</small>
+      </article>
+      <article class="kpi">
+        <span>Retention Rate</span>
+        <strong>83.88%</strong>
+        <small>Employees retained</small>
+      </article>
+      <article class="kpi">
+        <span>Average Tenure</span>
+        <strong>7.01</strong>
+        <small>Years at company</small>
+      </article>
+    </section>
+
+    <section class="insights" aria-label="Key insights">
+      <article class="insight risk">
+        <h2>Highest-Risk Department</h2>
+        <p>Sales leads department attrition at 20.63%.</p>
+      </article>
+      <article class="insight risk">
+        <h2>Overtime Signal</h2>
+        <p>Overtime employees attrite at 30.53%, compared with 10.44% without overtime.</p>
+      </article>
+      <article class="insight money">
+        <h2>Salary Impact</h2>
+        <p>Low salary band attrition is 29.27%, versus 10.33% in the high salary band.</p>
+      </article>
+    </section>
+
+    <section class="grid" aria-label="Core charts">
+      <article class="panel">
+        <h2>Attrition by Department</h2>
+        <img class="chart" src="../assets/images/attrition_by_department.png" alt="Attrition rate by department">
+      </article>
+      <article class="panel">
+        <h2>Overtime Impact</h2>
+        <img class="chart" src="../assets/images/overtime_impact.png" alt="Attrition rate by overtime status">
+      </article>
+      <article class="panel">
+        <h2>Salary Impact</h2>
+        <img class="chart" src="../assets/images/salary_impact.png" alt="Attrition rate by salary band">
+      </article>
+      <article class="panel">
+        <h2>Experience vs Attrition</h2>
+        <img class="chart" src="../assets/images/experience_vs_attrition.png" alt="Attrition rate by experience band">
+      </article>
+    </section>
+
+    <section class="grid section" aria-label="Additional analysis">
+      <article class="panel">
+        <h2>Job Satisfaction Trends</h2>
+        <img class="chart" src="../assets/images/job_satisfaction_trends.png" alt="Attrition rate by job satisfaction">
+      </article>
+      <article class="panel">
+        <h2>Department Retention Table</h2>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Department</th>
+                <th>Employees</th>
+                <th>Attrition</th>
+                <th>Retention %</th>
+                <th>Attrition %</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Sales</td><td>446</td><td>92</td><td>79.37</td><td>20.63</td></tr>
+<tr><td>Human Resources</td><td>63</td><td>12</td><td>80.95</td><td>19.05</td></tr>
+<tr><td>Research & Development</td><td>961</td><td>133</td><td>86.16</td><td>13.84</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <section class="section panel" aria-label="High-risk segments">
+      <h2>High-Risk Employee Segments</h2>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Department</th>
+              <th>Job Role</th>
+              <th>Salary Band</th>
+              <th>Tenure Band</th>
+              <th>Overtime</th>
+              <th>Employees</th>
+              <th>Attrition %</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Sales</td><td>Sales Representative</td><td>Low</td><td>0-1 Years</td><td>Yes</td><td>8</td><td>87.5</td></tr>
+<tr><td>Research & Development</td><td>Research Scientist</td><td>Low</td><td>0-1 Years</td><td>Yes</td><td>11</td><td>81.82</td></tr>
+<tr><td>Research & Development</td><td>Laboratory Technician</td><td>Lower-Mid</td><td>4-7 Years</td><td>Yes</td><td>5</td><td>80.0</td></tr>
+<tr><td>Research & Development</td><td>Laboratory Technician</td><td>Low</td><td>0-1 Years</td><td>Yes</td><td>13</td><td>76.92</td></tr>
+<tr><td>Sales</td><td>Sales Representative</td><td>Low</td><td>2-3 Years</td><td>Yes</td><td>8</td><td>75.0</td></tr>
+<tr><td>Research & Development</td><td>Laboratory Technician</td><td>Lower-Mid</td><td>0-1 Years</td><td>Yes</td><td>6</td><td>66.67</td></tr>
+<tr><td>Sales</td><td>Sales Executive</td><td>High</td><td>2-3 Years</td><td>Yes</td><td>6</td><td>66.67</td></tr>
+<tr><td>Research & Development</td><td>Laboratory Technician</td><td>Low</td><td>4-7 Years</td><td>Yes</td><td>10</td><td>60.0</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <p class="footer-note">For the Power BI version, import <code>data/processed/powerbi_hr_attrition_model.csv</code>, apply the DAX measures in <code>powerbi/dax_measures.md</code>, and follow <code>powerbi/dashboard_build_guide.md</code>.</p>
+  </main>
+</body>
+</html>

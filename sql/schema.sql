@@ -1,4 +1,4 @@
--- HR Attrition cleaned table schema.
+-- Cleaned table schema.
 -- Compatible with SQLite. The Python script can also create this table directly:
 -- python src/create_sqlite_db.py
 

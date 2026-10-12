@@ -1,4 +1,4 @@
--- HR Analytics Business Questions
+-- HR Analytics 
 -- Run against data/processed/hr_attrition.sqlite after:
 -- python src/run_analysis.py
 -- python src/create_sqlite_db.py
